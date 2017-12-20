@@ -10,10 +10,16 @@ import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.wing.entity.Examination;
 import org.wing.entity.Student;
 import org.wing.service.StudentService;
 import org.wing.utils.CryptographyUtil;
+
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 学生控制层
@@ -67,6 +73,37 @@ public class StudentController {
         student.setIdCard("500231000000000000");
         studentService.insertStudent(student);
         return "成功";
+    }
+
+    /**
+     * 学生查询考试安排
+     * @param studentNumber
+     * @return
+     */
+    @RequestMapping(value = "/examSchedule")
+    @ResponseBody
+    public Map<String,Object> examSchedule(@RequestParam(value = "studentNumber",defaultValue = "false")String studentNumber){
+        Map<String, Object> resultMap = new LinkedHashMap<>();
+        List<Examination> examination=studentService.getExamByStudentNumber(studentNumber);
+        if (examination!=null) {
+            for (int i = 0; i < examination.size(); i++) {
+                if (examination.get(i).getExamMethod().equals("上机考核")) {
+                    List<Examination> examinations = studentService.getExamByMap(examination.get(i));
+                    int temp = 0;
+                    for (int j = 0; j < examinations.size(); j++) {
+                        temp++;
+                        //System.out.println(examinations.get(i).getClassroom());
+                        if (studentNumber.equals(examinations.get(j).getStudentNumber())) {
+                            examination.get(i).setSeatNumber(String.valueOf(temp));
+                            System.out.println(temp);
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+       resultMap.put("examination",examination);
+       return resultMap;
     }
 
 

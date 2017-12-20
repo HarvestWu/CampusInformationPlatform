@@ -4,7 +4,10 @@ package org.wing.service;
  * Created by HarvestWu on 2017/12/15.
  */
 
+import org.wing.entity.Examination;
 import org.wing.entity.Student;
+
+import java.util.List;
 
 /**
  * 学生服务层接口
@@ -37,4 +40,19 @@ public interface StudentService {
      * @param student
      */
     void updateStudent(Student student);
+
+    /**
+     * 学生根据学号查询考试信息
+     * @param studentNumber
+     * @return
+     */
+    List<Examination> getExamByStudentNumber(String studentNumber);
+
+    /**
+     * 根据考试周次，星期，节数，教室查找，并按学好排序
+     * @param examination
+     * @return
+     */
+    List<Examination> getExamByMap(Examination examination);
+
 }

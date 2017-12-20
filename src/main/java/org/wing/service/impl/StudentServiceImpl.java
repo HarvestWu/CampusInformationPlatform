@@ -7,9 +7,13 @@ package org.wing.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.wing.dao.ExaminationDao;
 import org.wing.dao.StudentDao;
+import org.wing.entity.Examination;
 import org.wing.entity.Student;
 import org.wing.service.StudentService;
+
+import java.util.List;
 
 /**
  * 学生服务层接口实现层
@@ -19,6 +23,8 @@ public class StudentServiceImpl implements StudentService{
 
     @Autowired
     private StudentDao studentDao;
+    @Autowired
+    private ExaminationDao examinationDao;
     /**
      * 根据学号和身份证号验证学生是否存在
      * @param studentNumber
@@ -56,5 +62,23 @@ public class StudentServiceImpl implements StudentService{
      */
     public void updateStudent(Student student) {
 
+    }
+
+    /**
+     * 学生根据学号查询考试安排
+     * @param studentNumber
+     * @return
+     */
+    public List<Examination> getExamByStudentNumber(String studentNumber) {
+        return examinationDao.getExamByStudentNumber(studentNumber);
+    }
+    /**
+     * 根据考试周次，星期，节数，教室查找，并按学好排序
+     * @param examination
+     * @return
+     */
+    @Override
+    public List<Examination> getExamByMap(Examination examination) {
+        return examinationDao.getExamByMap(examination);
     }
 }
