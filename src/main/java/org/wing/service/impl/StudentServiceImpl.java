@@ -7,8 +7,11 @@ package org.wing.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.wing.dao.ClassQueryDao;
 import org.wing.dao.ExaminationDao;
 import org.wing.dao.StudentDao;
+import org.wing.dao.StudentSelectDao;
+import org.wing.entity.ClassQuery;
 import org.wing.entity.Examination;
 import org.wing.entity.Student;
 import org.wing.service.StudentService;
@@ -25,6 +28,10 @@ public class StudentServiceImpl implements StudentService{
     private StudentDao studentDao;
     @Autowired
     private ExaminationDao examinationDao;
+    @Autowired
+    private ClassQueryDao classQueryDao;
+    @Autowired
+    private StudentSelectDao studentSelectDao;
     /**
      * 根据学号和身份证号验证学生是否存在
      * @param studentNumber
@@ -80,5 +87,25 @@ public class StudentServiceImpl implements StudentService{
     @Override
     public List<Examination> getExamByMap(Examination examination) {
         return examinationDao.getExamByMap(examination);
+    }
+
+    /**
+     * 根据学生学号查询课程编号
+     * @param studentNumber
+     * @return
+     */
+    @Override
+    public List<String> getCourseNumber(String studentNumber) {
+        return studentSelectDao.getCourseNumber(studentNumber);
+    }
+
+    /**
+     * 根据课程编号查询课程信息
+     * @param courseNumber
+     * @return
+     */
+    @Override
+    public ClassQuery getClassQuery(String courseNumber) {
+        return classQueryDao.getClassQuery(courseNumber);
     }
 }

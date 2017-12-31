@@ -4,6 +4,7 @@ package org.wing.service;
  * Created by HarvestWu on 2017/12/15.
  */
 
+import org.wing.entity.ClassQuery;
 import org.wing.entity.Examination;
 import org.wing.entity.Student;
 
@@ -55,4 +56,17 @@ public interface StudentService {
      */
     List<Examination> getExamByMap(Examination examination);
 
+    /**
+     * 根据学号查询课程编号
+     * @param studentNumber
+     * @return
+     */
+    List<String> getCourseNumber(String studentNumber);
+
+    /**
+     * 根据课程编号查询课程信息
+     * @param courseNumber
+     * @return
+     */
+    ClassQuery getClassQuery(String courseNumber);
 }

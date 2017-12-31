@@ -12,11 +12,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.wing.entity.ClassQuery;
 import org.wing.entity.Examination;
 import org.wing.entity.Student;
 import org.wing.service.StudentService;
 import org.wing.utils.CryptographyUtil;
+import org.wing.utils.StringUtil;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -104,6 +107,32 @@ public class StudentController {
         }
        resultMap.put("examination",examination);
        return resultMap;
+    }
+
+    /**
+     * 学生查询课表,根据学号和学期查询
+     * @return
+     */
+        @RequestMapping(value = "/queryClass")
+    @ResponseBody
+    public Map<String,Object> queryClass(@RequestParam(value = "id")String studentNumber,@RequestParam(value = "term")String term){
+        Map<String, Object> resultMap = new LinkedHashMap<>();
+        List<ClassQuery>classQueries=new ArrayList<>();
+        List<String> courseNumbers=studentService.getCourseNumber(studentNumber);
+        for (int i=0;i<courseNumbers.size();i++){
+            ClassQuery classQuery=studentService.getClassQuery(courseNumbers.get(i));
+            //根据学期
+            if (term.equals(classQuery.getTerm())){
+                String a[][]= StringUtil.sub(classQuery.getClassTime(),classQuery.getClassroom());
+                for (int j=0;j<a.length;j++){
+                   classQuery.setClassTime(a[j][0]);
+                   classQuery.setClassroom(a[j][1]);
+                   classQueries.add(classQuery);
+                }
+            }
+        }
+        resultMap.put("classQuery",classQueries);
+        return resultMap;
     }
 
 
