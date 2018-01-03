@@ -1,0 +1,2 @@
+# CampusInformationPlatform
+四川农业大学校园信息化平台
