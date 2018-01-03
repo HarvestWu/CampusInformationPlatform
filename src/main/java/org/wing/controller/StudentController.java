@@ -113,21 +113,29 @@ public class StudentController {
      * 学生查询课表,根据学号和学期查询
      * @return
      */
-        @RequestMapping(value = "/queryClass")
+    @RequestMapping(value = "/queryClass")
     @ResponseBody
     public Map<String,Object> queryClass(@RequestParam(value = "id")String studentNumber,@RequestParam(value = "term")String term){
         Map<String, Object> resultMap = new LinkedHashMap<>();
         List<ClassQuery>classQueries=new ArrayList<>();
         List<String> courseNumbers=studentService.getCourseNumber(studentNumber);
         for (int i=0;i<courseNumbers.size();i++){
-            ClassQuery classQuery=studentService.getClassQuery(courseNumbers.get(i));
-            //根据学期
-            if (term.equals(classQuery.getTerm())){
-                String a[][]= StringUtil.sub(classQuery.getClassTime(),classQuery.getClassroom());
-                for (int j=0;j<a.length;j++){
-                   classQuery.setClassTime(a[j][0]);
-                   classQuery.setClassroom(a[j][1]);
-                   classQueries.add(classQuery);
+            ClassQuery classQuery=studentService.getClassQuery(courseNumbers.get(i),term);
+            if (classQuery!=null) {
+                String a[][] = StringUtil.sub(classQuery.getClassTime(), classQuery.getClassroom());
+                for (int j = 0; j < a.length; j++) {
+                    ClassQuery query = null;
+                    try {
+                        query = classQuery.clone();
+                    } catch (CloneNotSupportedException e) {
+                        e.printStackTrace();
+                    }
+                    assert query != null;
+                    query.setClassTime(a[j][0]);
+                    query.setClassroom(a[j][1]);
+                   /*System.out.println(a[j][0]);*/
+                    System.out.println(query);
+                    classQueries.add(query);
                 }
             }
         }

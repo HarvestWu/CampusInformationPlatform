@@ -100,12 +100,12 @@ public class StudentServiceImpl implements StudentService{
     }
 
     /**
-     * 根据课程编号查询课程信息
+     * 根据课程编号和学期查询课程信息
      * @param courseNumber
      * @return
      */
     @Override
-    public ClassQuery getClassQuery(String courseNumber) {
-        return classQueryDao.getClassQuery(courseNumber);
+    public ClassQuery getClassQuery(String courseNumber,String term) {
+        return classQueryDao.getClassQuery(courseNumber,term);
     }
 }

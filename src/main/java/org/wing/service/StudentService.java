@@ -64,9 +64,9 @@ public interface StudentService {
     List<String> getCourseNumber(String studentNumber);
 
     /**
-     * 根据课程编号查询课程信息
+     * 根据课程编号和学期查询课程信息
      * @param courseNumber
      * @return
      */
-    ClassQuery getClassQuery(String courseNumber);
+    ClassQuery getClassQuery(String courseNumber,String term);
 }

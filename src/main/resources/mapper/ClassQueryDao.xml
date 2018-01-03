@@ -12,10 +12,9 @@
         <result property="classroom" column="教室"/>
         <result property="term" column="学期"/>
     </resultMap>
-    <select id="getClassQuery" resultMap="classQueryResultMap">
-       SELECT * from 开课任务 WHERE 编号=#{courseNumber}
+    <select id="getClassQuery" parameterType="map" resultMap="classQueryResultMap">
+        SELECT * FROM 开课任务 WHERE 编号=#{0} and 学期=#{1}
     </select>
-
 
 
 </mapper>

@@ -34,7 +34,7 @@ public class StringUtil {
     public static void main(String[] args) {
         String text="1-5,1-6<br>3-1,3-2<br>";//上课时间
         String str="10-B102<br>4-B509<br>";//上课教室
-        String a[][]=sub(text,str);
+        String a[][]=StringUtil.sub(text,str);
         System.out.println(a.length);
         System.out.println(a[0][0]+a[0][1]);
         System.out.println(a[1][0]+a[1][1]);

@@ -3,7 +3,7 @@ package org.wing.entity;
 /**
  * Created by yeleia on 17-12-29.
  */
-public class ClassQuery {
+public class ClassQuery implements Cloneable{
     private Integer id;
     private String courseNumber;//课程编号
     private String campus;//校区
@@ -82,5 +82,25 @@ public class ClassQuery {
 
     public void setTerm(String term) {
         this.term = term;
+    }
+
+    @Override
+    public ClassQuery clone() throws CloneNotSupportedException {
+        return (ClassQuery) super.clone();
+    }
+
+    @Override
+    public String toString() {
+        return "ClassQuery{" +
+                "id=" + id +
+                ", courseNumber='" + courseNumber + '\'' +
+                ", campus='" + campus + '\'' +
+                ", teacher='" + teacher + '\'' +
+                ", course='" + course + '\'' +
+                ", classTime='" + classTime + '\'' +
+                ", weeks='" + weeks + '\'' +
+                ", classroom='" + classroom + '\'' +
+                ", term='" + term + '\'' +
+                '}';
     }
 }
