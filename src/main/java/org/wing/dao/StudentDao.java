@@ -4,6 +4,7 @@ package org.wing.dao;
  * Created by HarvestWu on 2017/12/15.
  */
 
+import org.wing.entity.ComputerGradeTwo;
 import org.wing.entity.Student;
 
 /**

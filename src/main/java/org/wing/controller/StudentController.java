@@ -4,6 +4,7 @@ package org.wing.controller;
  * Created by HarvestWu on 2017/12/15.
  */
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.wing.entity.ClassQuery;
+import org.wing.entity.ComputerGradeTwo;
 import org.wing.entity.Examination;
 import org.wing.entity.Student;
 import org.wing.service.StudentService;
@@ -143,5 +145,33 @@ public class StudentController {
         return resultMap;
     }
 
+    /**
+     * 根据学号查询计算机等级考试成绩
+     * @return
+     */
+    @RequestMapping("/queryComputerGradeTwo")
+    @ResponseBody
+    public Map<String ,Object> queryComputerGradeTwo(@RequestParam(value = "studentNumber",defaultValue = "false")String studentNumber){
+        Map<String, Object> resultMap =new LinkedHashMap<>();
+        List<ComputerGradeTwo> computerGradeTwos=null;
+        if (StringUtils.isNotBlank(studentNumber)){
+            System.out.println("studentNumber："+studentNumber);
+           computerGradeTwos= studentService.getComputerGradeTwo(studentNumber);
+            if (computerGradeTwos!=null&&computerGradeTwos.size()>0){
+                resultMap.put("msg","查询成功");
+                resultMap.put("computerGradeTwo",computerGradeTwos);
+                return resultMap;
+            }
+            else{
+                resultMap.put("msg","您暂时没有成绩信息");
+                return resultMap;
+            }
+        }else{
+            System.out.println("学号为空！！！");
+            resultMap.put("msg","学号不能为空");
+             return resultMap;
+        }
+
+}
 
 }
