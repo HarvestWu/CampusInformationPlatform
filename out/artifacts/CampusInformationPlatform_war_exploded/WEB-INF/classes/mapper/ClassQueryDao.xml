@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.5//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.wing.dao.ClassQueryDao" >
+    <resultMap id="classQueryResultMap" type="org.wing.entity.ClassQuery">
+        <result property="id" column="id"/>
+        <result property="courseNumber" column="编号"/>
+        <result property="campus" column="校区"/>
+        <result property="teacher" column="教师"/>
+        <result property="course" column="课程"/>
+        <result property="classTime" column="上课时间"/>
+        <result property="weeks" column="周次1"/>
+        <result property="classroom" column="教室"/>
+        <result property="term" column="学期"/>
+    </resultMap>
+    <select id="getClassQuery" parameterType="map" resultMap="classQueryResultMap">
+        SELECT * FROM 开课任务 WHERE 编号=#{0} and 学期=#{1}
+    </select>
+
+
+</mapper>

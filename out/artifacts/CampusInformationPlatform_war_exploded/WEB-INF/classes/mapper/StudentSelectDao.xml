@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.5//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.wing.dao.StudentSelectDao" >
+    <resultMap id="studentSelectResultMap" type="org.wing.entity.StudentSelect">
+        <result property="id" column="id"/>
+        <result property="studentNumber" column="学号"/>
+        <result property="courseNumber" column="编号"/>
+    </resultMap>
+    <select id="getCourseNumber" resultType="java.lang.String">
+        SELECT 编号 FROM 学生选课 WHERE 学号=#{studentNumber}
+    </select>
+
+
+</mapper>

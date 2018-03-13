@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.5//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.wing.dao.ComputerGradeTwoDao" >
+    <resultMap id="ComputerGradeTwoResultMap" type="org.wing.entity.ComputerGradeTwo">
+        <result property="KC" column="KC"/>
+        <result property="ZKZH" column="ZKZH"/>
+        <result property="XM" column="XM"/>
+        <result property="XB" column="XB"/>
+        <result property="SFZH" column="SFZH"/>
+        <result property="XH" column="XH"/>
+        <result property="JBYYIM" column="JBYYIM"/>
+        <result property="JBYYMC" column="JBYYMC"/>
+        <result property="ZZBSCJ" column="ZZBSCJ"/>
+        <result property="ZZSJCJ" column="ZZSJCJ"/>
+        <result property="ZSBH" column="ZSBH"/>
+    </resultMap>
+    <select id="getComputerGradeTwo" resultMap="ComputerGradeTwoResultMap">
+         SELECT KC,ZKZH,XM,XB,XQ,SFZH,XH,JBYYDM,JBYYMC,ZZBSCJ,ZZSJCJ,ZSBH from 全国计算机成绩 WHERE XH=#{studentNumber}
+    </select>
+
+
+
+</mapper>

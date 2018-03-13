@@ -5,6 +5,7 @@ package org.wing.service;
  */
 
 import org.wing.entity.ClassQuery;
+import org.wing.entity.ComputerGradeTwo;
 import org.wing.entity.Examination;
 import org.wing.entity.Student;
 
@@ -15,7 +16,7 @@ import java.util.List;
  */
 public interface StudentService {
 
-    /**
+    /**+9
      * 根据学号和身份证号验证学生是否存在
      * @param studentNumber
      * @param idCard
@@ -69,4 +70,6 @@ public interface StudentService {
      * @return
      */
     ClassQuery getClassQuery(String courseNumber,String term);
+
+    List<ComputerGradeTwo> getComputerGradeTwo(String studentNumber);
 }
