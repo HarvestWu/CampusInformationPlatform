@@ -11,7 +11,8 @@
        http://www.springframework.org/schema/context
        http://www.springframework.org/schema/context/spring-context.xsd">
 
-
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+    </bean>
     <!-- 使用注解的包，包括子集 -->
     <context:component-scan base-package="org.wing.service"/>
     <!-- 加载jdbc.properties配置文件 -->

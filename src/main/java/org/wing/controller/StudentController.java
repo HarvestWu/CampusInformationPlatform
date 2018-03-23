@@ -10,9 +10,7 @@ import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.wing.entity.ClassQuery;
 import org.wing.entity.ComputerGradeTwo;
 import org.wing.entity.Examination;
@@ -39,10 +37,10 @@ public class StudentController {
     /**
      * 验证是否存在该学生
      */
-    @RequestMapping(value = "/judge")
+    @RequestMapping(value = "/judge",method = RequestMethod.POST)
     @ResponseBody
-    public Integer judgeExistStudent(String studentNumber, String idCard){
-        int result=studentService.judgeExistStudent(studentNumber,idCard);
+    public Integer judgeExistStudent(@ModelAttribute("student")Student student){
+        int result=studentService.judgeExistStudent(student.getStudentNumber(),student.getIdCard());
         System.out.println(result);
         return result;
     }
