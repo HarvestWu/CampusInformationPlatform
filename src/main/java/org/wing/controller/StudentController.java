@@ -117,7 +117,7 @@ public class StudentController {
      */
     @RequestMapping(value = "/queryClass")
     @ResponseBody
-    public Map<String,Object> queryClass(@RequestParam(value = "id")String studentNumber,@RequestParam(value = "term")String term){
+    public Map<String,Object> queryClass(@RequestParam(value = "id",defaultValue = "false")String studentNumber,@RequestParam(value = "term",defaultValue = "false")String term){
         Map<String, Object> resultMap = new LinkedHashMap<>();
         List<ClassQuery>classQueries=new ArrayList<>();
         List<String> courseNumbers=studentService.getCourseNumber(studentNumber);
