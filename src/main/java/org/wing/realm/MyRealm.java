@@ -35,12 +35,6 @@ public class MyRealm extends AuthorizingRealm{
      */
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken) throws AuthenticationException {
-        String studentNumber = (String) authenticationToken.getPrincipal();
-        Student student = studentService.getStudentByStudentNumber(studentNumber);
-        if (student!=null){
-            return new SimpleAuthenticationInfo(student.getStudentNumber(),student.getPassword(),getName());
-        }else {
             return null;
-        }
     }
 }

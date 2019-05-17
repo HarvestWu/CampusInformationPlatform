@@ -1,7 +1,7 @@
 package org.wing.entity;
 
 /**
- * Created by yeleia on 17-12-30.
+ * Created by HarvestWu on 2019/3/27.
  */
 public class StudentSelect {
     private Integer id;

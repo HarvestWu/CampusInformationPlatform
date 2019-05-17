@@ -8,33 +8,17 @@ package org.wing.entity;
  * 学生认证信息类
  */
 public class Student {
-    private Integer id;
+    private String studentName;
     private String studentNumber;
     private String password;
-    private String idCard;
+    private String studentClass;
 
-    public Student() {
+    public String getStudentName() {
+        return studentName;
     }
 
-    public Student(String studentNumber, String password, String idCard) {
-        this.studentNumber = studentNumber;
-        this.password = password;
-        this.idCard=idCard;
-    }
-
-    public Student(Integer id, String studentNumber, String password, String idCard) {
-        this.id = id;
-        this.studentNumber = studentNumber;
-        this.password = password;
-        this.idCard = idCard;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
+    public void setStudentName(String studentName) {
+        this.studentName = studentName;
     }
 
     public String getStudentNumber() {
@@ -53,11 +37,11 @@ public class Student {
         this.password = password;
     }
 
-    public String getIdCard() {
-        return idCard;
+    public String getStudentClass() {
+        return studentClass;
     }
 
-    public void setIdCard(String idCard) {
-        this.idCard = idCard;
+    public void setStudentClass(String studentClass) {
+        this.studentClass = studentClass;
     }
 }

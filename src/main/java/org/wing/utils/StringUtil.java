@@ -36,7 +36,7 @@ public class StringUtil {
         String str="10-B102<br>4-B509<br>";//上课教室
         String a[][]=StringUtil.sub(text,str);
         System.out.println(a.length);
-        System.out.println(a[0][0]+a[0][1]);
-        System.out.println(a[1][0]+a[1][1]);
+        System.out.println(a[0][0]+" "+a[0][1]);
+        System.out.println(a[1][0]+" "+a[1][1]);
     }
 }

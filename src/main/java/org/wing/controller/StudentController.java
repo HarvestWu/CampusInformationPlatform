@@ -5,16 +5,16 @@ package org.wing.controller;
  */
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.ibatis.annotations.Param;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import org.wing.entity.ClassQuery;
-import org.wing.entity.ComputerGradeTwo;
-import org.wing.entity.Examination;
+import org.wing.entity.Course;
 import org.wing.entity.Student;
+import org.wing.service.CourseService;
 import org.wing.service.StudentService;
 import org.wing.utils.CryptographyUtil;
 import org.wing.utils.StringUtil;
@@ -33,143 +33,42 @@ public class StudentController {
 
     @Autowired
     StudentService studentService;
+    @Autowired
+    CourseService courseService;
 
     /**
-     * 验证是否存在该学生
+     * 获取学生信息
+     * @param studentNumber 学号
+     * @return 学生信息
      */
-    @RequestMapping(value = "/judge",method = RequestMethod.POST)
+    @RequestMapping(value = "/getStudentInfo",method = RequestMethod.GET)
     @ResponseBody
-    public Integer judgeExistStudent(@ModelAttribute("student")Student student){
-        int result=studentService.judgeExistStudent(student.getStudentNumber(),student.getIdCard());
-        System.out.println(result);
-        return result;
+    public Student getStudentInfo(@Param("studentNumber")String studentNumber) {
+        System.out.println("controller");
+        return studentService.getStudentInfo(studentNumber);
     }
 
     /**
-     * 学生登录认证
+     * 获取课程编号
+     * @param studentNumber 学号
+     * @return 课程编号序列
      */
-    @RequestMapping(value = "/login")
+    @RequestMapping(value = "/getCourseNumber")
     @ResponseBody
-    public String login(Student student){
-        student.setStudentNumber("20158531");
-        student.setPassword("1234567");
-        Subject subject = SecurityUtils.getSubject();
-        UsernamePasswordToken token = new UsernamePasswordToken(student.getStudentNumber(),
-                CryptographyUtil.md5(student.getPassword()));
-        try {
-            subject.login(token);
-            return "认证成功";
-        }catch (Exception e){
-            return "认证失败";
-        }
+    public List<String> getCourseNumber(@Param("studentNumber") String studentNumber){
+        List<String> courseNumbers=courseService.getCourseNumber(studentNumber);
+        return courseNumbers;
     }
 
     /**
-     * 学生注册认证信息
-     * @return
+     * 获取课程信息
+     * @param courseNumber 课程编号
+     * @return 课程信息
      */
-    @RequestMapping(value = "/register")
+    @RequestMapping(value = "/getCourseInfo")
     @ResponseBody
-    public String register(Student student){
-        student.setStudentNumber("20158531");
-        student.setPassword(CryptographyUtil.md5("1234567"));
-        student.setIdCard("500231000000000000");
-        studentService.insertStudent(student);
-        return "成功";
+    public Course getCourseInfo(@Param("courseNumber") String courseNumber){
+        Course course=courseService.getCourse(courseNumber);
+        return course;
     }
-
-    /**
-     * 学生查询考试安排
-     * @param studentNumber
-     * @return
-     */
-    @RequestMapping(value = "/examSchedule")
-    @ResponseBody
-    public Map<String,Object> examSchedule(@RequestParam(value = "studentNumber",defaultValue = "false")String studentNumber){
-        Map<String, Object> resultMap = new LinkedHashMap<>();
-        List<Examination> examination=studentService.getExamByStudentNumber(studentNumber);
-        if (examination!=null) {
-            for (int i = 0; i < examination.size(); i++) {
-                if (examination.get(i).getExamMethod().equals("上机考核")) {
-                    List<Examination> examinations = studentService.getExamByMap(examination.get(i));
-                    int temp = 0;
-                    for (int j = 0; j < examinations.size(); j++) {
-                        temp++;
-                        //System.out.println(examinations.get(i).getClassroom());
-                        if (studentNumber.equals(examinations.get(j).getStudentNumber())) {
-                            examination.get(i).setSeatNumber(String.valueOf(temp));
-                            System.out.println(temp);
-                            break;
-                        }
-                    }
-                }
-            }
-        }
-       resultMap.put("examination",examination);
-       return resultMap;
-    }
-
-    /**
-     * 学生查询课表,根据学号和学期查询
-     * @return
-     */
-    @RequestMapping(value = "/queryClass")
-    @ResponseBody
-    public Map<String,Object> queryClass(@RequestParam(value = "id",defaultValue = "false")String studentNumber,@RequestParam(value = "term",defaultValue = "false")String term){
-        Map<String, Object> resultMap = new LinkedHashMap<>();
-        List<ClassQuery>classQueries=new ArrayList<>();
-        List<String> courseNumbers=studentService.getCourseNumber(studentNumber);
-        for (int i=0;i<courseNumbers.size();i++){
-            ClassQuery classQuery=studentService.getClassQuery(courseNumbers.get(i),term);
-            if (classQuery!=null) {
-                String a[][] = StringUtil.sub(classQuery.getClassTime(), classQuery.getClassroom());
-                for (int j = 0; j < a.length; j++) {
-                    ClassQuery query = null;
-                    try {
-                        query = classQuery.clone();
-                    } catch (CloneNotSupportedException e) {
-                        e.printStackTrace();
-                    }
-                    assert query != null;
-                    query.setClassTime(a[j][0]);
-                    query.setClassroom(a[j][1]);
-                   /*System.out.println(a[j][0]);*/
-                    System.out.println(query);
-                    classQueries.add(query);
-                }
-            }
-        }
-        resultMap.put("classQuery",classQueries);
-        return resultMap;
-    }
-
-    /**
-     * 根据学号查询计算机等级考试成绩
-     * @return
-     */
-    @RequestMapping("/queryComputerGradeTwo")
-    @ResponseBody
-    public Map<String ,Object> queryComputerGradeTwo(@RequestParam(value = "studentNumber",defaultValue = "false")String studentNumber){
-        Map<String, Object> resultMap =new LinkedHashMap<>();
-        List<ComputerGradeTwo> computerGradeTwos=null;
-        if (StringUtils.isNotBlank(studentNumber)){
-            System.out.println("studentNumber："+studentNumber);
-           computerGradeTwos= studentService.getComputerGradeTwo(studentNumber);
-            if (computerGradeTwos!=null&&computerGradeTwos.size()>0){
-                resultMap.put("msg","查询成功");
-                resultMap.put("computerGradeTwo",computerGradeTwos);
-                return resultMap;
-            }
-            else{
-                resultMap.put("msg","您暂时没有成绩信息");
-                return resultMap;
-            }
-        }else{
-            System.out.println("学号为空！！！");
-            resultMap.put("msg","学号不能为空");
-             return resultMap;
-        }
-
-}
-
 }

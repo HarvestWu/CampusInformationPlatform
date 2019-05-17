@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.5//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.wing.dao.StudentGetDao" >
+
+    <resultMap id="studentResultMap" type="org.wing.entity.Student">
+        <result property="studentName" column="姓名"/>
+        <result property="studentNumber" column="学号"/>
+        <result property="studentClass" column="班级"/>
+    </resultMap>
+
+    <select id="getStudent" parameterType="java.lang.String" resultMap="studentResultMap">
+        select 姓名,学号,班级 from dbo.xslist where 学号=#{studentNumber}
+    </select>
+
+</mapper>
